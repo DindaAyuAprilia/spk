@@ -1,0 +1,16 @@
+{% extends 'layout/index.html' %}
+{% block title %} Tambah Anak {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Tambah Anak</h1>
+    <a href="{% url 'anak_index' %}" class="btn btn-custom mb-3">Kembali</a>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {% include 'anak/form.html' %}
+        <button type="submit" class="btn btn-custom">Simpan</button>
+    </form>
+</div>
+
+{% endblock %}

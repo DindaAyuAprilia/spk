@@ -1,0 +1,33 @@
+{% extends 'layout/index.html' %}
+
+{% block title %}{{ kriteria.nama }} - {{ form.instance.pk|default:"Tambah Range" }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ form.instance.pk|default:"Tambah Range" }}</h1>
+    <a href="{% url 'range_index' kriteria.id %}" class="btn btn-secondary mb-3">Kembali</a>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_nama" class="form-label">Nama</label>
+            {{ form.nama }}
+            <div class="invalid-feedback">
+                {% for error in form.nama.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="id_nilai" class="form-label">Nilai</label>
+            {{ form.nilai }}
+            <div class="invalid-feedback">
+                {% for error in form.nilai.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
+{% endblock %}

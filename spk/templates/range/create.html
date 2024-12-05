@@ -1,0 +1,32 @@
+{% extends 'layout/index.html' %}
+
+{% block title %}Tambah Range untuk {{ kriteria.nama }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Tambah Range untuk Kriteria: {{ kriteria.nama }}</h1>
+    <a href="{% url 'kriteria_index' %}" class="btn btn-secondary mb-3">Kembali</a>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Nilai</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                <tr>
+                    <td>{{ form.nama }}</td>
+                    <td>{{ form.nilai }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'layout/index.html' %}
+{% block title %} Kelola Nilai Anak {% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{% if form.instance.pk %}Edit{% else %}Tambah{% endif %} Data Anak</h1>
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_nama" class="form-label">Nama</label>
+            {{ form.nama }}
+        </div>
+        <div class="mb-3">
+            <label for="id_tanggal_lahir" class="form-label">Tanggal Lahir</label>
+            {{ form.tanggal_lahir }}
+        </div>
+        <hr>
+        <h3>Nilai Kriteria</h3>
+        {% for item in nilai_kriteria %}
+        <div class="mb-3">
+            <label for="id_kriteria_{{ item.kriteria_id }}" class="form-label">{{ item.kriteria_nama }}</label>
+            
+            {% if item.is_range %}
+            <!-- Dropdown for range options -->
+            <select id="id_kriteria_{{ item.kriteria_id }}" name="nilai_{{ item.kriteria_id }}" class="form-select">
+                <option value="" disabled selected>Pilih nilai...</option>
+                {% for option in item.range_options %}
+                <option value="{{ option.id }}" {% if option.nilai == item.selected_range %}selected{% endif %}>
+                    {{ option.nama }} ({{ option.nilai }})
+                </option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <!-- Numeric input for direct value -->
+            <input type="number" step="0.01" id="id_kriteria_{{ item.kriteria_id }}" name="nilai_{{ item.kriteria_id }}"
+                value="{{ item.nilai }}" class="form-control">
+            {% endif %}
+        </div>
+        {% endfor %}
+
+
+        <button type="submit" class="btn btn-custom">Simpan</button>
+    </form>
+</div>
+{% endblock %}

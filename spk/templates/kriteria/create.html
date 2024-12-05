@@ -1,0 +1,109 @@
+{% extends 'layout/index.html' %}
+
+{% block title %}Tambah Kriteria{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Tambah Kriteria</h1>
+    <a href="{% url 'kriteria_index' %}" class="btn btn-secondary mb-3">Kembali</a>
+    
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        
+        <!-- Nama -->
+        <div class="mb-3">
+            <label for="id_nama" class="form-label">Nama</label>
+            {{ form.nama }}
+            <div class="invalid-feedback">
+                {% for error in form.nama.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Tipe -->
+        <div class="mb-3">
+            <label for="id_tipe" class="form-label">Tipe</label>
+            {{ form.tipe }}
+            <div class="invalid-feedback">
+                {% for error in form.tipe.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Nilai Kepentingan -->
+        <div class="mb-3">
+            <label for="id_nilai_kepentingan" class="form-label">Nilai Kepentingan</label>
+            {{ form.nilai_kepentingan }}
+            <div class="invalid-feedback">
+                {% for error in form.nilai_kepentingan.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Bobot -->
+        <div class="mb-3">
+            <label for="id_bobot" class="form-label">Bobot</label>
+            {{ form.bobot }}
+            <div class="invalid-feedback">
+                {% for error in form.bobot.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Menggunakan Range -->
+        <div class="mb-3">
+            <label for="id_menggunakan_range" class="form-label">Menggunakan Range</label>
+            {{ form.menggunakan_range }}
+            <div class="invalid-feedback">
+                {% for error in form.menggunakan_range.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+
+    {% if form.errors %}
+    <!-- Display error notification -->
+    <div id="error-notification" class="alert alert-danger mt-3">
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Notifikasi melayang
+    document.addEventListener("DOMContentLoaded", function() {
+        if (document.getElementById('error-notification')) {
+            const notification = document.getElementById('error-notification');
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.zIndex = '9999';
+            notification.style.width = '80%';
+            notification.style.maxWidth = '500px';
+            notification.style.transition = 'top 0.5s ease-in-out';
+            
+            setTimeout(() => {
+                notification.style.top = '-100px';  // Hides the notification after 3 seconds
+            }, 3000);
+        }
+    });
+</script>
+{% endblock %}

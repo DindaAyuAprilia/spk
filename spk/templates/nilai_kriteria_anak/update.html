@@ -1,0 +1,16 @@
+{% extends 'layout/index.html' %}
+{% block title %} Ubah Nilai Kriteria Anak {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Ubah Nilai Kriteria Anak</h1>
+    <a href="{% url 'nilai_kriteria_anak_index' %}" class="btn btn-custom mb-3">Kembali</a>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        {% include 'nilai_kriteria_anak/form.html' %}
+        <button type="submit" class="btn btn-custom">Simpan</button>
+    </form>
+</div>
+
+{% endblock %}

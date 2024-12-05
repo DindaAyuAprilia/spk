@@ -1,0 +1,68 @@
+{% extends 'layout/index.html' %}
+{% block title %} Data Anak dan Nilai Kriteria {% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Data Anak dan Nilai Kriteria</h1>
+    <a href="{% url 'anak_nilai_manage' %}" class="btn btn-custom mb-3">Tambah Data</a>
+
+     <!-- Add a button to trigger WP Calculation -->
+     <a href="{% url 'wp_method' %}" class="btn btn-success mb-3">Hitung Alternatif Terbaik</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nama Anak</th>
+                {% for kriteria in kriteria_list %}
+                <th>{{ kriteria.nama }}</th>
+                {% endfor %}
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for anak in anak_list %}
+            <tr>
+                <td>{{ anak.nama }}</td>
+                {% for kriteria in kriteria_list %}
+                <td>
+                    {% with anak.nilai_kriteria.all as nilai_kriteria %}
+                    {% for nk in nilai_kriteria %}
+                        {% if nk.kriteria.id == kriteria.id %}
+                            {{ nk.nilai }}
+                        {% endif %}
+                    {% empty %}
+                        -
+                    {% endfor %}
+                    {% endwith %}
+                </td>
+                {% endfor %}
+                <td>
+                    <a href="{% url 'anak_nilai_manage' anak.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <button class="btn btn-sm btn-danger" onclick="confirmDelete({{ anak.id }})">Hapus</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{{ kriteria_list.count|add:2 }}">Tidak ada data.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function confirmDelete(anakId) {
+        if (confirm('Apakah Anda yakin ingin menghapus anak ini?')) {
+            fetch(`/anak/delete/${anakId}/`, {
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'}
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Gagal menghapus data.');
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'layout/index.html' %}
+
+{% block title %} Daftar Kriteria {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Daftar Kriteria</h1>
+    <a href="{% url 'kriteria_create' %}" class="btn btn-primary mb-3">Tambah Kriteria</a>
+    <button class="btn btn-danger mb-3" onclick="confirmDeleteAll()">Hapus Semua Data</button>
+    <!-- Button untuk menghitung bobot AHP -->
+    <button class="btn btn-success mb-3" onclick="hitungBobotAHP()">Hitung Bobot AHP</button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Tipe</th>
+                <th>Nilai Kepentingan</th>
+                <th>Bobot</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for k in kriteria_list %}
+            <tr>
+                <td>{{ k.nama }}</td>
+                <td>{{ k.tipe }}</td>
+                <td>{{ k.nilai_kepentingan }}</td>
+                <td>{{ k.bobot|floatformat:2 }}</td>
+                <td>
+                    {% comment %} <a href="{% url 'kriteria_edit' k.id %}" class="btn btn-sm btn-warning">Edit</a> {% endcomment %}
+                    <button class="btn btn-sm btn-danger" onclick="confirmDelete({{ k.id }})">Hapus</button>
+                    {% if k.menggunakan_range %}
+                    <a href="{% url 'range_index' k.id %}" class="btn btn-sm btn-warning">Edit Range</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Tidak ada data.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+</div>
+
+<script>
+    // Konfirmasi sebelum menghapus semua data
+    function confirmDeleteAll() {
+        if (confirm('Apakah Anda yakin ingin menghapus semua data?')) {
+            fetch("{% url 'delete_all_kriteria' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Gagal menghapus data.');
+                }
+            });
+        }
+    }
+
+    // Fungsi untuk menghitung bobot AHP
+    function hitungBobotAHP() {
+        fetch("{% url 'hitung_bobot_ahp' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        }).then(response => {
+            if (response.ok) {
+                alert('Bobot berhasil dihitung dan diperbarui.');
+                window.location.reload();
+            } else {
+                alert('Gagal menghitung bobot.');
+            }
+        });
+    }
+
+    // Hapus Satu
+    function confirmDelete(kriteriaId) {
+        if (confirm('Apakah Anda yakin ingin menghapus kriteria ini?')) {
+            fetch(`/kriteria/delete/${kriteriaId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Gagal menghapus kriteria.');
+                }
+            });
+        }
+    }
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'layout/index.html' %}
+{% block title %} Daftar Anak {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Daftar Anak</h1>
+    <a href="{% url 'anak_create' %}" class="btn btn-custom mb-3">Tambah Anak</a>
+
+    <form method="GET" class="mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="Cari anak..." class="form-control">
+        <button type="submit" class="btn btn-custom mt-2">Cari</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Tanggal Lahir</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for anak in anak_list %}
+            <tr>
+                <td>{{ anak.nama }}</td>
+                <td>{{ anak.tanggal_lahir }}</td>
+                <td>
+                    <a href="{% url 'anak_update' anak.id %}" class="btn btn-sm btn-warning">Ubah</a>
+                    <button class="btn btn-sm btn-danger" onclick="confirmDelete({{ anak.id }})">Hapus</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Tidak ada data.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function confirmDelete(anakId) {
+        if (confirm('Apakah Anda yakin ingin menghapus anak ini?')) {
+            fetch(`/anak/delete/${anakId}/`, {
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'}
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Gagal menghapus data.');
+                }
+            });
+        }
+    }
+</script>
+
+{% endblock %}

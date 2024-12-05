@@ -1,0 +1,63 @@
+{% extends 'layout/index.html' %}
+{% block title %} Tambah Nilai Kriteria Anak {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Tambah Nilai Kriteria Anak</h1>
+    <a href="{% url 'nilai_kriteria_anak_index' %}" class="btn btn-custom mb-3">Kembali</a>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_anak" class="form-label">Anak</label>
+            {{ form.anak }}
+            <div class="invalid-feedback">{{ form.anak.errors }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="id_kriteria" class="form-label">Kriteria</label>
+            {{ form.kriteria }}
+            <div class="invalid-feedback">{{ form.kriteria.errors }}</div>
+        </div>
+        <div class="mb-3" id="nilai-field">
+            <label for="id_nilai" class="form-label">Nilai</label>
+            {{ form.nilai }}
+            <div class="invalid-feedback">{{ form.nilai.errors }}</div>
+        </div>
+        <button type="submit" class="btn btn-custom">Simpan</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const kriteriaField = document.getElementById('id_kriteria');
+        const nilaiField = document.getElementById('id_nilai');
+
+        kriteriaField.addEventListener('change', () => {
+            const kriteriaId = kriteriaField.value;
+            if (kriteriaId) {
+                fetch(`/get-range-kategori/${kriteriaId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.using_range) {
+                            let options = '<select name="nilai" id="id_nilai" class="form-control">';
+                            data.choices.forEach(choice => {
+                                options += `<option value="${choice.nilai}">${choice.nama}</option>`;
+                            });
+                            options += '</select>';
+                            document.getElementById('nilai-field').innerHTML = `
+                                <label for="id_nilai" class="form-label">Nilai</label>
+                                ${options}
+                            `;
+                        } else {
+                            document.getElementById('nilai-field').innerHTML = `
+                                <label for="id_nilai" class="form-label">Nilai</label>
+                                <input type="number" name="nilai" id="id_nilai" class="form-control">
+                            `;
+                        }
+                    });
+            }
+        });
+    });
+</script>
+
+{% endblock %}

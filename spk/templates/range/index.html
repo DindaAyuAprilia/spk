@@ -1,0 +1,39 @@
+{% extends 'layout/index.html' %}
+
+{% block title %}Daftar Range untuk {{ kriteria.nama }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Daftar Range untuk Kriteria: {{ kriteria.nama }}</h1>
+    <a href="{% url 'kriteria_index' %}" class="btn btn-secondary mb-3">Kembali</a>
+
+    {% if ranges.exists %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Nilai</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for range in ranges %}
+                <tr>
+                    <td>{{ range.nama }}</td>
+                    <td>{{ range.nilai }}</td>
+                    <td>
+                        <!-- Tombol untuk Edit Range -->
+                        <a href="{% url 'range_edit' kriteria.id range.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">Belum ada range yang ditambahkan untuk kriteria ini.</p>
+    {% endif %}
+
+    <!-- Tombol Tambah Range -->
+    <a href="{% url 'range_create' kriteria.id %}" class="btn btn-primary mt-3">Tambah Range</a>
+</div>
+{% endblock %}

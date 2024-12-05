@@ -1,0 +1,83 @@
+
+<div class="mb-3">
+    <label for="id_anak" class="form-label">Anak</label>
+    {{ form.anak }}
+    <div class="invalid-feedback">{{ form.anak.errors }}</div>
+</div>
+
+<div class="mb-3">
+    <label for="id_kriteria" class="form-label">Kriteria</label>
+    {{ form.kriteria }}
+    <div class="invalid-feedback">{{ form.kriteria.errors }}</div>
+</div>
+
+<!-- Untuk kriteria yang menggunakan range -->
+<div class="mb-3" id="range-container" style="display:none;">
+    <label for="id_nilai" class="form-label">Nilai (Pilih dari Range)</label>
+    <select name="nilai" id="id_nilai" class="form-control">
+        <option value="">Pilih Nilai</option>
+        <!-- Range categories akan dimuat di sini -->
+    </select>
+    <div class="invalid-feedback">{{ form.nilai.errors }}</div>
+</div>
+
+<!-- Untuk kriteria yang tidak menggunakan range -->
+<div class="mb-3" id="nilai-input-container" style="display:none;">
+    <label for="id_nilai_input" class="form-label">Nilai (Masukkan Nilai)</label>
+    <input type="number" name="nilai_input" id="id_nilai_input" class="form-control" step="any" />
+    <div class="invalid-feedback">{{ form.nilai.errors }}</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const kriteriaField = document.getElementById('id_kriteria');
+        const rangeContainer = document.getElementById('range-container');
+        const nilaiInputContainer = document.getElementById('nilai-input-container');
+        const nilaiField = document.getElementById('id_nilai');
+        
+        // Fungsi untuk memuat range berdasarkan kriteria yang dipilih
+        function loadRangeOptions(kriteriaId) {
+            fetch(`/get_ranges/${kriteriaId}/`)  // Anda harus menyiapkan view untuk mengambil ranges
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing options
+                    nilaiField.innerHTML = '<option value="">Pilih Nilai</option>';
+
+                    if (data.ranges.length > 0) {
+                        data.ranges.forEach(range => {
+                            const option = document.createElement('option');
+                            option.value = range.id;
+                            option.textContent = `${range.nama} (${range.nilai})`;
+                            nilaiField.appendChild(option);
+                        });
+                        rangeContainer.style.display = 'block';  // Tampilkan field nilai range
+                        nilaiInputContainer.style.display = 'none';  // Sembunyikan input nilai biasa
+                    } else {
+                        rangeContainer.style.display = 'none';  // Sembunyikan field nilai jika tidak ada range
+                        nilaiInputContainer.style.display = 'none';  // Sembunyikan input nilai biasa
+                    }
+                });
+        }
+
+        // Event listener untuk perubahan pada field kriteria
+        kriteriaField.addEventListener('change', function() {
+            const kriteriaId = kriteriaField.value;
+            if (kriteriaId) {
+                // Cek jika kriteria menggunakan range
+                fetch(`/is_range/${kriteriaId}/`)  // Anda harus menyiapkan view untuk memeriksa apakah kriteria menggunakan range
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.using_range) {
+                            loadRangeOptions(kriteriaId);
+                        } else {
+                            rangeContainer.style.display = 'none';  // Sembunyikan field range
+                            nilaiInputContainer.style.display = 'block';  // Tampilkan input nilai biasa
+                        }
+                    });
+            } else {
+                rangeContainer.style.display = 'none';  // Sembunyikan field range jika tidak ada kriteria
+                nilaiInputContainer.style.display = 'none';  // Sembunyikan input nilai biasa jika tidak ada kriteria
+            }
+        });
+    });
+</script>

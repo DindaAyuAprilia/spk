@@ -1,0 +1,354 @@
+body{
+    background-color: #F6EADC;
+    font-size:large;
+}
+
+
+/* =======================  Navbar ======================*/
+/* Custom navbar styling */
+.navbar-custom {
+    background-color: #A4907C; /* Warna latar belakang navbar */
+    padding-top: 5px; /* Atur padding */
+    padding-bottom: 5px; /* Atur padding */
+    padding-left: 5%; /* Atur padding */
+    padding-right: 5%; /* Atur padding */
+    position: sticky; /* Membuat navbar stiky */
+    top: 0; /* Menetapkan navbar di atas halaman */
+    z-index: 1000; /* Pastikan navbar selalu di atas elemen lain */
+    width: 100%; /* Pastikan navbar mengisi lebar penuh */
+    border: 2px solid #3C2A21; /* Gaya solid, ketebalan 2px, warna hitam */
+}
+
+.navbar-brand {
+    margin-right: 0; /* Hapus margin tambahan di kanan logo jika perlu */
+}
+
+.btn-outline {
+    color: #3C2A21;
+    border-color: #3C2A21;
+    background-color: #C8B6A6;
+    padding: 5px 5px; /* Tambah padding untuk memperbesar tombol */
+    margin: 0 2px; /* Tambahkan margin kecil antara tombol untuk spacing */
+    transition: background-color 0.3s ease;
+    flex-grow: 1; /* Biarkan setiap tombol memanjang sesuai ruang yang tersedia */
+}
+
+/* Menambahkan lengkungan pada ujung tombol */
+.btn-group .btn:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Atur lebar tombol berdasarkan teks terpanjang */
+.btn-group {
+    display: flex;
+    width: 50%; /* Pastikan grup tombol mengambil lebar penuh */
+}
+
+.btn-group .btn {
+    flex: 1; /* Setiap tombol mengambil ruang yang sama dalam grup */
+    min-width: max-content; /* Memastikan lebar tombol mengikuti lebar teks terpanjang */
+    text-align: center;
+}
+
+.btn-outline:hover, .btn-outline:focus {
+    background-color: #F6EADC; /* Warna saat hover */
+    color: #3C2A21;
+}
+
+.btn-outline.active {
+    background-color: #3C2A21; /* Warna untuk item yang aktif */
+    color: #C8B6A6;
+    border-color: #3C2A21;
+}
+
+.navbar-toggler {
+    border-color: white; /* Jaga konsistensi dengan tema */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Styling tambahan untuk responsive */
+@media (max-width: 991px) {
+    .btn-group {
+        width: 100%; /* Pastikan grup tombol mengambil lebar penuh */
+        justify-content: center; /* Menengahkan tombol */
+    }
+
+    .btn-outline {
+        border: none;
+        border-radius: 0;
+        width: 100%; /* Pastikan tombol memenuhi lebar penuh pada tampilan mobile */
+        text-align: center;
+    }
+}
+
+/* Tambahkan styling ini untuk mengurangi padding di sekitar container navbar */
+@media (min-width: 992px) {
+    .navbar .container {
+        padding: 0; /* Hapus padding internal */
+        max-width: 100%; /* Perbolehkan container mengambil lebar penuh */
+    }
+}
+
+
+
+
+/* =================== Footer ======================== */
+.footer-container { 
+    background-color: #A4907C; /* Background color */
+    color: #3C2A21;/* Text color */
+    padding: 10px 30px; /* Adjust padding around content */
+    padding-left: 5%; /* Atur padding */
+    padding-right: 5%; /* Atur padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Evenly space content */
+    flex-wrap: wrap;
+    font-size: 14px; /* Font size */
+    left: 0; /* Align left */
+    bottom: 0; /* Align bottom */
+    width: 100%; /* Full width */
+    z-index: 1000;
+    border: 2px solid #3C2A21; /* Gaya solid, ketebalan 2px, warna hitam */
+    border-radius: 10px;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%; /* Full width for alignment */
+}
+
+.footer-container h4{
+    align-items: center;
+    justify-content:flex-start; 
+    color: black;
+}
+.footer-logo {
+    width: 70px; /* Adjust logo size for better fit */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.social-media-icons {
+    display: flex; /* Layout icons in a row */
+    margin-left: 20px; /* Add some space before the icons start */
+}
+
+.social-icon img{
+    padding: 8px; /* Space around icons */
+    color: white; /* Icon color */
+    width: 40px; /* Adjust logo size for better fit */
+    height: auto; /* Maintain aspect ratio */
+    /* display: block; */
+}
+
+.footer-text {
+    text-align: center; /* Center the text */
+    margin: 0 15px; /* Adjust margin for text */
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 20px; /* Increase padding for smaller screens */
+        flex-direction: column; /* Stack elements vertically */
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center; /* Center content on smaller screens */
+    }
+
+    .social-media-icons {
+        justify-content: center; /* Center icons */
+        margin-top: 10px; /* Extra space above icons */
+    }
+
+    .footer-text {
+        margin-top: 5px; /* Adjust spacing */
+    }
+}
+
+/* Ensure content does not hide behind the footer */
+.body-content {
+    padding-bottom: 80px; /* Adjust based on footer height */
+}
+
+
+/* =================== Welcome card ======================= */
+.full-screen {
+    min-height: 100vh; /* Mengatur tinggi minimal sama dengan tinggi viewport */
+    display: flex;
+    align-items: center; /* Pusatkan konten secara vertikal */
+    justify-content: center; /* Pusatkan konten secara horizontal */
+    background-size: cover;
+    background-position: center;
+}
+
+.xuen-welcome-card {
+    min-height: 100vh; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.716); /* Latar belakang transparan hitam untuk teks agar lebih terbaca */
+    width: 100%; /* Memenuhi lebar container */
+}
+
+.xuen-welcome-card .text-content {
+    flex: 1; /* Mengambil ruang yang tersedia */
+    margin: auto; /* Pusatkan secara horizontal dan vertikal */
+    text-align: center; /* Teks ditengah */
+}
+
+
+.xuen-welcome-card .btn {
+    background-color: #3C2A21; /* Warna background tombol */
+    color: #F6EADC; /* Warna teks */
+    border: none; /* Hapus border */
+    padding: 10px 20px; /* Padding */
+    text-decoration: none; /* Hapus garis bawah teks */
+    transition: background-color 0.3s ease; /* Transisi warna saat hover */
+    margin-bottom: 30px;
+}
+
+.xuen-welcome-card .btn-custom:hover {
+    background-color: #F6EADC; /* Warna saat hover */
+    color: #3C2A21; /* Warna teks saat hover */
+}
+
+@media (max-width: 768px) {
+    .xuen-welcome-card {
+        text-align: center; /* Teks ditengah pada layar kecil */
+    }
+
+    .xuen-welcome-card .text-content {
+        flex: none; /* Batalkan pengaturan flex sebelumnya */
+        width: 90%; /* Mengambil lebar penuh */
+        margin-right: 0; /* Hapus margin kanan */
+    }
+
+}
+
+.btn-custom {
+    background-color: #3C2A21; /* Warna background tombol */
+    color: #F6EADC; /* Warna teks */
+    border: none; /* Hapus border */
+    text-decoration: none; /* Hapus garis bawah teks */
+    transition: background-color 0.3s ease; /* Transisi warna saat hover */
+}
+
+.btn-custom:hover {
+    background-color: #F6EADC; /* Warna saat hover */
+    color: #3C2A21; /* Warna teks saat hover */
+}
+
+.service-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Tetap tinggi card seragam */
+}
+
+.service-card:hover {
+    transform: scale(1.05); /* Membesarkan sedikit card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan saat hover */
+}
+
+.service-card img {
+    width: 100%; /* Pastikan gambar mengambil lebar penuh card */
+    height: 350px; /* Tinggi gambar tetap konsisten */
+    object-fit: fill; /* Memastikan gambar terpotong secara proporsional */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    padding: 10px; /* Menghindari padding berlebih */
+    flex-grow: 1;
+    height: 150px; /* Atur tinggi body card agar seimbang */
+}
+
+.card-body .card-text, .card-body h3 {
+    margin: 0;
+    padding: 5px 0;
+}
+
+
+/* Styling untuk link daftar */
+.link-daftar {
+    color: #3C2A21;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-daftar:hover {
+    color: #C8B6A6;
+    text-decoration: underline;
+}
+
+/* Custom Bootstrap Form */
+.form-control {
+    background-color: #fff8f2;
+    border: 1px solid #3C2A21;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Styling untuk form element */
+.form-group label {
+    color: #3C2A21;
+    font-size: 14px;
+}
+
+/* Styling untuk placeholder */
+::placeholder {
+    color: #aaa;
+}
+
+.registration-box .label{
+    font-size: large;
+}
+
+/* =========================== Deskripsi Dan Layanan =================== */
+.container-beranda {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.service-icon {
+    width: 80px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.service-icon {
+    width: 100px; /* Adjust based on design needs */
+    height: auto;
+}
+
+.carousel-item {
+    min-height: 300px; /* Ensure each carousel item has a minimum height */
+}
+
+/* Ensure carousel controls are visible and properly positioned if needed */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000; /* Make the arrows more visible */
+}
